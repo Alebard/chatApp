@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+}
+
+button, input {
+    border-radius: 0;
+    border: 1px solid black;
+    background-color: transparent;
+    padding: 7px 8px;
+    vertical-align: middle;
+
+}
+
+body > div > div > div.options_select-name > div.options_input > form > input[type=text] {
+    width: 185px;
+}
+
+button{
+    padding: 4px 8px;
+}
+
+.options-screen{
+    display: none;
+}
+
+.wrapper {
+    background-color: #535353;
+    width: 321px;
+    height: 533px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.screen {
+    background-color: #fff;
+    width: 273px;
+    min-height: 319px;
+    margin: auto;
+    padding: 4px 16px 14px;
+    box-sizing: border-box;
+}
+
+.screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.screen-close {
+    font-size: 24px;
+    opacity: 0.45;
+    transform: rotate(-45deg);
+}
+
+.options_select-name {
+    margin-top: 16px;
+}
+
+.options_title {
+    margin-bottom: 8px;
+}
+
+.option-btn svg {
+    width: 14px;
+    height: 19px;
+}
+
+.option-btn {
+    box-sizing: border-box;
+}
+
+.chat{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav_btns, .chat_messages{
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.chat-form{
+    vertical-align: middle;
+}
+
+.chat_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat_messages{
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.message{
+    margin: 4px 0;
+    background-color: #E5E5E5;
+    padding: 8px;
+    flex-shrink: 0;
+}
+
+.message.new{
+        background-color: #F7F7F7;
+}
+.message-user{
+    align-self: flex-end
+}
+.message_time{
+    display: inline-block;
+    text-align: right;
+}
