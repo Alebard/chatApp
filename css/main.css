@@ -21,6 +21,10 @@ button{
     padding: 4px 8px;
 }
 
+button, .nav_btns{
+    cursor: pointer;
+}
+
 
 
 .wrapper {
@@ -28,6 +32,7 @@ button{
     width: 321px;
     height: 533px;
     position: relative;
+    margin: 0 auto;
 }
 
 .popup{
