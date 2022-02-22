@@ -1,39 +1,31 @@
-import {sendRequest} from "./api.js";
-import {UI, BTNS, SCREENS, FORMS} from "./view.js";
-import {URLS} from "./urls.js";
+import {UI} from "./view.js";
 
 export const classesMessageFrom = {
-    me : 'message-user',
+    me: 'message-user',
     other: 'message-answer'
 }
 
 
-
-export async function showMessages() {
-    const messages = (await sendRequest("GET", URLS.MESSAGE)).messages;
-    messages.forEach((data) => {
-        createMessage(data)
-    })
-}
-
-function createMessage(data) {
-    const messageData = new MessageData(data)
-    renderMessage(messageData, classesMessageFrom.other)
-}
-
 export function renderMessage(messageData, className) {
-    UI.MESSAGE_TEMPLATE.content.querySelector('.message_text').textContent = `${messageData.userName}: ${messageData.userMessage}`;
-    UI.MESSAGE_TEMPLATE.content.querySelector('.message_time').textContent = `${messageData.userMessageHour}:${messageData.userMessageMinutes}`;
-    UI.MESSAGE_TEMPLATE.content.querySelector('.message').classList.add(className);
-    UI.MESSAGES_WRAPPER.append(UI.MESSAGE_TEMPLATE.content.cloneNode(true));
+    const message = document.createElement('div');
+    message.className = `message ${className} new`;
+    const messageContent = UI.MESSAGE_TEMPLATE.content.cloneNode(true)
+    messageContent.querySelector('.message_text').textContent = `${messageData.userName}: ${messageData.userMessage}`;
+    messageContent.querySelector('.message_time').textContent = `${messageData.userMessageHour}:${messageData.userMessageMinutes}`;
+    message.append(messageContent)
+    UI.MESSAGES_WRAPPER.append(message);
     UI.MESSAGES_WRAPPER.scrollIntoView(false)
+    setTimeout(function () {
+        message.classList.remove('new')
+    }, 2000)
 }
 
 
-function MessageData(messageData) {
-        this.userName = messageData.username;
-        this.userMessage = messageData.message;
-        this.userMessageHour = (new Date(messageData.createdAt)).getHours();
-        this.userMessageMinutes = (new Date(messageData.createdAt)).getMinutes();
+export function MessageData(messageData) {
+    this.userName = messageData.user.name;
+    this.userMessage = messageData.text;
+    this.userMessageHour = (new Date(messageData.createdAt)).getHours();
+    this.userMessageMinutes = (new Date(messageData.createdAt)).getMinutes();
+    this.userEmail = messageData.user.email;
 }
 

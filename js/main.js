@@ -1,7 +1,6 @@
 import {UI, BTNS, SCREENS, FORMS} from "./view.js";
 import {getCookie} from "./cookie.js";
 import {confirm, sendToken} from "./autorization.js";
-import {showMessages, } from "./render.js";
 import {sendMessage, showPopup, closePopup, rename, showOptions} from "./app.js";
 
 
@@ -15,6 +14,4 @@ BTNS.SCREEN_CLOSE.forEach((item) => item.addEventListener('click', closePopup));
 
 if(getCookie('token') === undefined){
     showPopup(SCREENS.AUTORIZATION)
-}else{
-    showMessages()
 }

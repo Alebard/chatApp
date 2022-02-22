@@ -140,6 +140,7 @@ button, .nav_btns{
     display: flex;
     flex-direction: column;
     align-self: flex-start;
+    max-width: 100%;
 }
 
 .message.new{
@@ -151,6 +152,10 @@ button, .nav_btns{
 .message_time{
     display: inline-block;
     text-align: right;
+}
+
+.message_text{
+    word-wrap: break-word;
 }
 
 .messages_wrapper{

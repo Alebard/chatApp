@@ -1,6 +1,5 @@
 import {SCREENS, UI} from "./view.js";
 import {closePopup} from "./app.js";
-import {showMessages} from "./render.js";
 import {sendRequest} from "./api.js";
 import {URLS} from "./urls.js";
 
