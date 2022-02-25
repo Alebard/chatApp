@@ -2,8 +2,6 @@ import {UI, BTNS, SCREENS, FORMS} from "./view.js";
 import {getCookie} from "./cookie.js";
 import {confirm, sendToken} from "./autorization.js";
 import {sendMessage, showPopup, closePopup, rename, showOptions, chatStart} from "./app.js";
-import {sendRequest} from "./api.js";
-import {URLS} from "./urls.js";
 
 
 FORMS.AUTORIZATION.addEventListener('submit', sendToken);

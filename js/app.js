@@ -75,7 +75,7 @@ export async function chatStart() {
 
 document.querySelector('.messages_wrapper').addEventListener('scroll', scrollMessage)
 
-function scrollMessage() {
+export function scrollMessage() {
     if (this.scrollTop === 0){
         const wrapperHeight = UI.MESSAGES_WRAPPER.scrollHeight;
         renderOldMessage();

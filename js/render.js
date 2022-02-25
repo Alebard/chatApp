@@ -1,5 +1,5 @@
 import {UI} from "./view.js";
-import {createMessage, myEmail, oldMessages} from "./app.js"
+import {createMessage, myEmail, oldMessages, scrollMessage} from "./app.js"
 
 export const classesMessageFrom = {
     me: 'message-user',
@@ -35,11 +35,22 @@ export function MessageData(messageData) {
 
 
 export function renderOldMessage(){
+    if (oldMessages.length < 1){
+        notMessage()
+    }
     const messagesForShow = oldMessages.splice(0, 20)
     messagesForShow.forEach((data) => {
         const messageData = new MessageData(data);
         createMessage(messageData, 'prepend');
     })
+}
+
+function notMessage() {
+    const message = document.createElement('div')
+    message.textContent = 'Вся история загружена'
+    message.style = 'text-align: center; margin: 15px;'
+    UI.MESSAGES_WRAPPER.prepend(message)
+    document.querySelector('.messages_wrapper').removeEventListener('scroll', scrollMessage);
 }
 
 

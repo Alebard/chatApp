@@ -173,3 +173,7 @@ button, .nav_btns{
 .options_title{
     margin-top: 60px;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}
