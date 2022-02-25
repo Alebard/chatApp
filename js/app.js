@@ -1,7 +1,9 @@
 import {SCREENS, UI} from "./view.js";
-import {classesMessageFrom, renderMessage, MessageData} from "./render.js";
+import {classesMessageFrom, renderMessage, MessageData, renderOldMessage} from "./render.js";
 import {sendRequest} from "./api.js";
 import {URLS} from "./urls.js";
+
+export let myEmail ='';
 
 
 export function showOptions() {
@@ -23,7 +25,6 @@ export function rename() {
     closePopup();
 }
 
-const socket = new WebSocket(URLS.SOCKET);
 
 export function sendMessage() {
     const messageText = UI.MESSAGE_INPUT.value;
@@ -32,29 +33,53 @@ export function sendMessage() {
         return
     }
     socket.send(JSON.stringify({text: messageText}));
+    UI.MESSAGE_FORM.reset()
     return false;
 }
 
-socket.onmessage = function(event) {
-    console.log(event.data)
-    const messageData = new MessageData(JSON.parse(event.data));
-    createMessage(messageData)
-    UI.MESSAGE_FORM.reset()
-};
 
-async function createMessage(messageData){
-    const className = await getClassName(messageData)
-    renderMessage(messageData, className)
+export function createMessage(messageData, method){
+    const className = getClassName(messageData)
+    renderMessage(messageData, className, method)
 }
 
- async function getClassName(messageData) {
-    const meReq = sendRequest('GET', URLS.ME);
-    const meRes = await meReq
-    const isMe = (meRes.email === messageData.userEmail)
-     if(isMe){
+function getClassName(messageData) {
+     if(isMyMessage(messageData)){
          return classesMessageFrom.me
      }else{
          return classesMessageFrom.other
      }
 }
 
+export function isMyMessage(messageData) {
+    return (myEmail === messageData.userEmail)
+}
+
+let socket = null
+export let oldMessages = null
+
+
+export async function chatStart() {
+
+    myEmail = (await sendRequest('GET', URLS.ME)).email
+    socket = new WebSocket(URLS.SOCKET);
+    socket.onmessage = function(event) {
+        const messageData = new MessageData(JSON.parse(event.data));
+        createMessage(messageData, 'append')
+    };
+    oldMessages = (await sendRequest("GET", URLS.MESSAGE)).messages.reverse();
+    renderOldMessage()
+    UI.MESSAGES_WRAPPER.scrollIntoView(false)
+}
+
+
+document.querySelector('.messages_wrapper').addEventListener('scroll', scrollMessage)
+
+function scrollMessage() {
+    if (this.scrollTop === 0){
+        const wrapperHeight = UI.MESSAGES_WRAPPER.scrollHeight;
+        renderOldMessage();
+        const wrapperHeightAfterScroll = UI.MESSAGES_WRAPPER.offsetHeight;
+        this.scrollTo(0, wrapperHeightAfterScroll - wrapperHeight);
+    }
+}
