@@ -620,9 +620,10 @@ function sendToken() {
     user.email = _viewJs.UI.AUTORIZATION_INPUT.value;
     _apiJs.sendRequest('POST', _urlsJs.URLS.USER, {
         body: user
+    }).then(()=>{
+        _appJs.closePopup();
+        _appJs.showPopup(_viewJs.SCREENS.CONFIRM);
     });
-    _appJs.closePopup();
-    _appJs.showPopup(_viewJs.SCREENS.CONFIRM);
 }
 function confirm() {
     const token = _viewJs.UI.CONFIRM_INPUT.value;
@@ -793,18 +794,23 @@ parcelHelpers.export(exports, "sendRequest", ()=>sendRequest
 var _jsCookie = require("js-cookie");
 var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
 async function sendRequest(method, url, options) {
-    const token = _jsCookieDefault.default.get('token');
-    const fetchBody = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${token}`
-        }
-    };
-    const needBody = method === 'POST' || method === 'PATCH';
-    if (needBody) fetchBody.body = JSON.stringify(options.body);
-    const response = await fetch(url, fetchBody);
-    return await response.json();
+    try {
+        const token = _jsCookieDefault.default.get('token');
+        const fetchBody = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+        const needBody = method === 'POST' || method === 'PATCH';
+        if (needBody) fetchBody.body = JSON.stringify(options.body);
+        const response = await fetch(url, fetchBody);
+        return await response.json();
+    } catch (e) {
+        alert(e);
+        throw new Error();
+    }
 }
 
 },{"js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8bBu":[function(require,module,exports) {
@@ -915,8 +921,6 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "URLS", ()=>URLS
 );
-var _jsCookie = require("js-cookie");
-var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
 const url = 'https://chat1-341409.oa.r.appspot.com/api/';
 const URLS = {
     USER: `${url}user/`,
@@ -925,6 +929,6 @@ const URLS = {
     SOCKET: `ws://chat1-341409.oa.r.appspot.com/websockets?`
 };
 
-},{"js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aIdiY","bDbGG"], "bDbGG", "parcelRequire25d8")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aIdiY","bDbGG"], "bDbGG", "parcelRequire25d8")
 
 //# sourceMappingURL=index.fbb3188c.js.map

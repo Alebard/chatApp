@@ -5,13 +5,13 @@ import {URLS} from "./urls.js";
 import Cookies from 'js-cookie'
 
 
-
 export function sendToken() {
     const user = {}
     user.email = UI.AUTORIZATION_INPUT.value;
-    sendRequest('POST', URLS.USER, { body: user });
-    closePopup();
-    showPopup(SCREENS.CONFIRM)
+    sendRequest('POST', URLS.USER, {body: user}).then(() => {
+        closePopup();
+        showPopup(SCREENS.CONFIRM);
+    })
 }
 
 
@@ -23,21 +23,7 @@ export function confirm() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const   a = 123;
+const a = 123;
 
 
 export default {a}
