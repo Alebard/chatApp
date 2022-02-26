@@ -2,7 +2,8 @@ import {SCREENS, UI} from "./view.js";
 import {chatStart, closePopup, showPopup} from "./app.js";
 import {sendRequest} from "./api.js";
 import {URLS} from "./urls.js";
-// import {showMessages} from "./render.js";
+import Cookies from 'js-cookie'
+
 
 
 export function sendToken() {
@@ -16,7 +17,7 @@ export function sendToken() {
 
 export function confirm() {
     const token = UI.CONFIRM_INPUT.value;
-    document.cookie = "token="+token;
+    Cookies.set('token', token);
     closePopup();
     chatStart()
 }

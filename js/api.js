@@ -1,7 +1,7 @@
-import {getCookie} from "./cookie.js";
+import Cookies from 'js-cookie'
 
 export async function sendRequest(method, url, options) {
-    const token = getCookie('token');
+    const token = Cookies.get('token');
     const fetchBody = {
         method: method,
         headers: {

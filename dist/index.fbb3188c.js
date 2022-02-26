@@ -521,7 +521,6 @@ function hmrAcceptRun(bundle, id) {
 },{}],"bDbGG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _viewJs = require("./view.js");
-var _cookieJs = require("./cookie.js");
 var _autorizationJs = require("./autorization.js");
 var _appJs = require("./app.js");
 var _jsCookie = require("js-cookie");
@@ -533,11 +532,10 @@ _viewJs.UI.MESSAGE_FORM.addEventListener('submit', _appJs.sendMessage);
 _viewJs.BTNS.OPTIONS.addEventListener('click', _appJs.showOptions);
 _viewJs.BTNS.SCREEN_CLOSE.forEach((item)=>item.addEventListener('click', _appJs.closePopup)
 );
-if (_cookieJs.getCookie('token') === undefined) _appJs.showPopup(_viewJs.SCREENS.AUTORIZATION);
-else _appJs.chatStart();
-console.log(_jsCookieDefault.default.get('token'));
+if (_jsCookieDefault.default.get('token')) _appJs.chatStart();
+else _appJs.showPopup(_viewJs.SCREENS.AUTORIZATION);
 
-},{"./view.js":"2GA9o","./cookie.js":"iflT4","./autorization.js":"8Ii9a","./app.js":"5AKj5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","js-cookie":"c8bBu"}],"2GA9o":[function(require,module,exports) {
+},{"./view.js":"2GA9o","./autorization.js":"8Ii9a","./app.js":"5AKj5","js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2GA9o":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "UI", ()=>UI
@@ -603,20 +601,9 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"iflT4":[function(require,module,exports) {
+},{}],"8Ii9a":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getCookie", ()=>getCookie
-);
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8Ii9a":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-// import {showMessages} from "./render.js";
 parcelHelpers.export(exports, "sendToken", ()=>sendToken
 );
 parcelHelpers.export(exports, "confirm", ()=>confirm
@@ -625,6 +612,8 @@ var _viewJs = require("./view.js");
 var _appJs = require("./app.js");
 var _apiJs = require("./api.js");
 var _urlsJs = require("./urls.js");
+var _jsCookie = require("js-cookie");
+var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
 function sendToken() {
     const user = {
     };
@@ -637,7 +626,7 @@ function sendToken() {
 }
 function confirm() {
     const token = _viewJs.UI.CONFIRM_INPUT.value;
-    document.cookie = "token=" + token;
+    _jsCookieDefault.default.set('token', token);
     _appJs.closePopup();
     _appJs.chatStart();
 }
@@ -646,7 +635,7 @@ exports.default = {
     a
 };
 
-},{"./view.js":"2GA9o","./app.js":"5AKj5","./api.js":"6yDOL","./urls.js":"cJeMZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5AKj5":[function(require,module,exports) {
+},{"./view.js":"2GA9o","./app.js":"5AKj5","./api.js":"6yDOL","./urls.js":"cJeMZ","js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5AKj5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "myEmail", ()=>myEmail
@@ -675,6 +664,8 @@ var _viewJs = require("./view.js");
 var _renderJs = require("./render.js");
 var _apiJs = require("./api.js");
 var _urlsJs = require("./urls.js");
+var _jsCookie = require("js-cookie");
+var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
 let myEmail = '';
 function showOptions() {
     _viewJs.SCREENS.OPTIONS.style.display = 'flex';
@@ -720,8 +711,18 @@ let socket = null;
 let oldMessages = null;
 async function chatStart() {
     myEmail = (await _apiJs.sendRequest('GET', _urlsJs.URLS.ME)).email;
-    socket = new WebSocket(_urlsJs.URLS.SOCKET);
+    console.log(_jsCookieDefault.default.get('token')) // выводит верный токен
+    ;
+    console.log(_urlsJs.URLS.SOCKET) // получает урл с undefined токеном
+    ;
+    socket = new WebSocket(_urlsJs.URLS.SOCKET); //обращается к url  с undefined токеном
+    console.log(_jsCookieDefault.default.get('token')) // выводит верный токен
+    ;
+    console.log(_urlsJs.URLS.SOCKET) // получает урл с undefined токеном
+    ;
     socket.onmessage = function(event) {
+        console.log(event.data) // ошибка
+        ;
         const messageData = new _renderJs.MessageData(JSON.parse(event.data));
         createMessage(messageData, 'append');
     };
@@ -739,7 +740,7 @@ function scrollMessage() {
     }
 }
 
-},{"./view.js":"2GA9o","./render.js":"9k0mC","./api.js":"6yDOL","./urls.js":"cJeMZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9k0mC":[function(require,module,exports) {
+},{"./view.js":"2GA9o","./render.js":"9k0mC","./api.js":"6yDOL","./urls.js":"cJeMZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","js-cookie":"c8bBu"}],"9k0mC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "classesMessageFrom", ()=>classesMessageFrom
@@ -799,9 +800,10 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "sendRequest", ()=>sendRequest
 );
-var _cookieJs = require("./cookie.js");
+var _jsCookie = require("js-cookie");
+var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
 async function sendRequest(method, url, options) {
-    const token = _cookieJs.getCookie('token');
+    const token = _jsCookieDefault.default.get('token');
     const fetchBody = {
         method: method,
         headers: {
@@ -815,21 +817,7 @@ async function sendRequest(method, url, options) {
     return await response.json();
 }
 
-},{"./cookie.js":"iflT4","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cJeMZ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "URLS", ()=>URLS
-);
-var _cookieJs = require("./cookie.js");
-const url = 'https://chat1-341409.oa.r.appspot.com/api/';
-const URLS = {
-    USER: `${url}user/`,
-    MESSAGE: `${url}messages/`,
-    ME: `${url}user/me`,
-    SOCKET: `ws://chat1-341409.oa.r.appspot.com/websockets?${_cookieJs.getCookie('token')}`
-};
-
-},{"./cookie.js":"iflT4","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8bBu":[function(require,module,exports) {
+},{"js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8bBu":[function(require,module,exports) {
 (function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, (function() {
         var current = global.Cookies;
@@ -932,6 +920,21 @@ const URLS = {
     /* eslint-enable no-var */ return api;
 });
 
-},{}]},["aIdiY","bDbGG"], "bDbGG", "parcelRequire25d8")
+},{}],"cJeMZ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "URLS", ()=>URLS
+);
+var _jsCookie = require("js-cookie");
+var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
+const url = 'https://chat1-341409.oa.r.appspot.com/api/';
+const URLS = {
+    USER: `${url}user/`,
+    MESSAGE: `${url}messages/`,
+    ME: `${url}user/me`,
+    SOCKET: `ws://chat1-341409.oa.r.appspot.com/websockets?${_jsCookieDefault.default.get('token')}`
+};
+
+},{"js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aIdiY","bDbGG"], "bDbGG", "parcelRequire25d8")
 
 //# sourceMappingURL=index.fbb3188c.js.map
