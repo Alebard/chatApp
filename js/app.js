@@ -1,8 +1,8 @@
+import Cookies from 'js-cookie'
 import {SCREENS, UI} from "./view.js";
 import {classesMessageFrom, renderMessage, MessageData, renderOldMessage} from "./render.js";
 import {sendRequest} from "./api.js";
 import {URLS} from "./urls.js";
-import Cookies from 'js-cookie'
 
 
 
@@ -65,13 +65,8 @@ export let oldMessages = null
 export async function chatStart() {
 
     myEmail = (await sendRequest('GET', URLS.ME)).email
-    console.log(Cookies.get('token')) // выводит верный токен
-    console.log(URLS.SOCKET) // получает урл с undefined токеном
-    socket = new WebSocket(URLS.SOCKET); //обращается к url  с undefined токеном
-    console.log(Cookies.get('token')) // выводит верный токен
-    console.log(URLS.SOCKET) // получает урл с undefined токеном
+    socket = new WebSocket(`${URLS.SOCKET}${Cookies.get('token')}`);
     socket.onmessage = function(event) {
-        console.log(event.data) // ошибка
         const messageData = new MessageData(JSON.parse(event.data));
         createMessage(messageData, 'append')
     };

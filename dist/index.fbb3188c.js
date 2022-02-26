@@ -660,12 +660,12 @@ parcelHelpers.export(exports, "chatStart", ()=>chatStart
 );
 parcelHelpers.export(exports, "scrollMessage", ()=>scrollMessage
 );
+var _jsCookie = require("js-cookie");
+var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
 var _viewJs = require("./view.js");
 var _renderJs = require("./render.js");
 var _apiJs = require("./api.js");
 var _urlsJs = require("./urls.js");
-var _jsCookie = require("js-cookie");
-var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
 let myEmail = '';
 function showOptions() {
     _viewJs.SCREENS.OPTIONS.style.display = 'flex';
@@ -711,18 +711,8 @@ let socket = null;
 let oldMessages = null;
 async function chatStart() {
     myEmail = (await _apiJs.sendRequest('GET', _urlsJs.URLS.ME)).email;
-    console.log(_jsCookieDefault.default.get('token')) // выводит верный токен
-    ;
-    console.log(_urlsJs.URLS.SOCKET) // получает урл с undefined токеном
-    ;
-    socket = new WebSocket(_urlsJs.URLS.SOCKET); //обращается к url  с undefined токеном
-    console.log(_jsCookieDefault.default.get('token')) // выводит верный токен
-    ;
-    console.log(_urlsJs.URLS.SOCKET) // получает урл с undefined токеном
-    ;
+    socket = new WebSocket(`${_urlsJs.URLS.SOCKET}${_jsCookieDefault.default.get('token')}`);
     socket.onmessage = function(event) {
-        console.log(event.data) // ошибка
-        ;
         const messageData = new _renderJs.MessageData(JSON.parse(event.data));
         createMessage(messageData, 'append');
     };
@@ -932,7 +922,7 @@ const URLS = {
     USER: `${url}user/`,
     MESSAGE: `${url}messages/`,
     ME: `${url}user/me`,
-    SOCKET: `ws://chat1-341409.oa.r.appspot.com/websockets?${_jsCookieDefault.default.get('token')}`
+    SOCKET: `ws://chat1-341409.oa.r.appspot.com/websockets?`
 };
 
 },{"js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aIdiY","bDbGG"], "bDbGG", "parcelRequire25d8")
