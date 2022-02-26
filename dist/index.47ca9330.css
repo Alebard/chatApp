@@ -1,0 +1,180 @@
+body {
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+}
+
+button, input {
+    border-radius: 0;
+    border: 1px solid black;
+    background-color: transparent;
+    padding: 7px 8px;
+    vertical-align: middle;
+
+}
+
+body > div > div > div.options_select-name > div.options_input > form > input[type=text] {
+    width: 185px;
+}
+
+button{
+    padding: 4px 8px;
+}
+
+button, .nav_btns{
+    cursor: pointer;
+}
+
+
+
+.wrapper {
+    background-color: #535353;
+    width: 321px;
+    height: 533px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.popup{
+    background-color: #535353;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.screen {
+    background-color: #fff;
+    width: 273px;
+    min-height: 319px;
+    margin: auto;
+    padding: 4px 16px 14px;
+    box-sizing: border-box;
+}
+
+
+.screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-close {
+    font-size: 24px;
+    opacity: 0.45;
+    transform: rotate(-45deg);
+}
+
+.options_select-name {
+    margin-top: 16px;
+}
+
+.popup_title {
+    margin-bottom: 8px;
+}
+
+.option-btn svg {
+    width: 14px;
+    height: 19px;
+}
+
+.option-btn {
+    box-sizing: border-box;
+}
+
+.chat{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.nav_btns, .messages_wrapper {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.form{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.autorization_popup .form{
+    display: block;
+}
+
+.autorization_popup .form input{
+    margin: 5px 0 ;
+}
+
+.form input{
+    flex: auto;
+    margin-right: 8px;
+}
+
+.chat_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat_messages{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 410px;
+}
+
+.message{
+    margin: 4px 0;
+    background-color: #E5E5E5;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    max-width: 100%;
+}
+
+.message.new{
+        background-color: #F7F7F7;
+}
+.message-user{
+    align-self: flex-end
+}
+.message_time{
+    display: inline-block;
+    text-align: right;
+}
+
+.message_text{
+    word-wrap: break-word;
+}
+
+.messages_wrapper{
+    overflow: auto;
+    height: 80%;
+}
+
+.message_time{
+    font-size: 14px;
+    color: #333333;
+}
+
+
+
+.options_title{
+    margin-top: 60px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+/*# sourceMappingURL=index.47ca9330.css.map */
